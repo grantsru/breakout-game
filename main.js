@@ -373,9 +373,9 @@ function init() {
 
   music.play();
 
-  var easy = location.href.indexOf("easy=true") > -1;
+  var hard = location.href.indexOf("easy=false") > -1;
 
-  if (easy) {
+  if (!hard) {
     difficulty = "easy";
     $("#easy").show();
     $("#hard").hide();
