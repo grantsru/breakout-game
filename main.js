@@ -5,8 +5,11 @@
 var canvas = document.getElementById("main-canvas"),
   ctx = canvas.getContext("2d");
 
+// DIFFICULTY //
+var difficulty;
+
 // BALL VARS //
-var xb = canvas.width / 2, // x-axis
+var xb = Math.random() * (480), // x-axis
   yb = canvas.height - 30, // y-axis
   br = 8, // radius
   dxb = 1, // speed x-axis
@@ -22,14 +25,15 @@ var phr = 10,
   pxr = (canvas.width - pwr) / 2 + 20;
 
 // BRICK VARS //
-var brCount = 4,
-  bcCount = 7,
-  bw = 60,
+var brCount = 7,
+  bcCount = 10,
+  bw = 41,
   bh = 20,
   bp = 2,
   boTop = 30,
   boLeft = 24,
   bricks = [];
+
 
 for (c = 0; c < bcCount; c++) {
   bricks[c] = [];
@@ -48,17 +52,22 @@ var score = 0;
 // PAUSE VARS //
 var pause = false;
 
+// GAMEOVER VARS //
+var lose = false;
+
 // CONTROLS //
 var right = false,
   left = false;
 
 // SOUND FX //
-var bounce = new Audio("bounce.wav"),
-  music = new Audio("music.mp3"),
-  paused = new Audio("pause.wav"),
-  unpaused = new Audio("unpause.wav"),
-  smash = new Audio("brick.wav"),
-  contact = new Audio("contact.wav"),
+var bounce = new Audio("sound/bounce.wav"),
+  music = new Audio("sound/music.mp3"),
+  paused = new Audio("sound/pause.wav"),
+  unpaused = new Audio("sound/unpause.wav"),
+  smash = new Audio("sound/brick.wav"),
+  contact = new Audio("sound/contact.wav"),
+  victory = new Audio("sound/victory.mp3"),
+  defeat = new Audio("sound/defeat.mp3"),
   sound = true;
 
 ///////////////////
@@ -84,6 +93,8 @@ function keyDown(e) {
     togglePause();
   } else if (e.keyCode == 83) {
     toggleSound();
+  } else if (e.keyCode == 78) {
+    newGame();
   }
 }
 
@@ -95,9 +106,12 @@ function keyUp(e) {
   }
 }
 
-
 $('#restart').click(function() {
-  document.location.reload();
+  window.location = window.location.pathname;
+});
+
+$('.difficulty').click(function() {
+  toggleDifficulty();
 });
 
 $("#sound").click(function() {
@@ -116,17 +130,23 @@ $('#pause').click(function() {
 
 function toggleSound() {
   var d = "btn-danger",
-    s = "btn-success";
+    s = "btn-success",
+    sOn = "fa-volume-up",
+    sOff = "fa-volume-off";
 
   if (sound) {
     sound = false;
     $("#sound").addClass(d);
     $("#sound").removeClass(s);
+    $(".sound-icon").addClass(sOff);
+    $(".sound-icon").removeClass(sOn);
     music.pause();
   } else {
     sound = true;
     $("#sound").addClass(s);
     $("#sound").removeClass(d);
+    $(".sound-icon").addClass(sOn);
+    $(".sound-icon").removeClass(sOff);
     if (!pause) {
       music.play();
     }
@@ -135,30 +155,44 @@ function toggleSound() {
 
 function togglePause() {
   var d = "btn-danger",
-    s = "btn-warning";
+    w = "btn-warning";
 
   pause = pause ? false : true;
-  if (pause) {
-    $("#pause").addClass(d);
-    $("#pause").removeClass(s);
-    if (sound) {
-      paused.play();
-      music.pause();
-    }
-  } else {
-    $("#pause").addClass(s);
-    $("#pause").removeClass(d);
-    if (sound) {
-      unpaused.play();
-      music.play();
+  if (!lose) {
+    if (pause) {
+      $("#pause").addClass(d);
+      $("#pause").removeClass(w);
+      if (sound) {
+        paused.play();
+        music.pause();
+      }
+    } else {
+      $("#pause").addClass(w);
+      $("#pause").removeClass(d);
+      if (sound) {
+        unpaused.play();
+        music.play();
+      }
     }
   }
+}
+
+function toggleDifficulty() {
+  if (difficulty == "easy") {
+    window.location = window.location.pathname + "?easy=false";
+  } else {
+    window.location = window.location.pathname + "?easy=true";
+  }
+}
+
+function newGame() {
+  document.location.reload();
 }
 
 function ball() {
   ctx.beginPath();
   ctx.arc(xb, yb, br, 0, Math.PI * 2);
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#F0AD4E";
   ctx.fill();
   ctx.closePath();
 }
@@ -166,7 +200,7 @@ function ball() {
 function paddleL() {
   ctx.beginPath();
   ctx.rect(pxl, canvas.height - phl, pwl, phl);
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#222";
   ctx.fill();
   ctx.closePath();
 }
@@ -174,7 +208,7 @@ function paddleL() {
 function paddleR() {
   ctx.beginPath();
   ctx.rect(pxr, canvas.height - phr, pwr, phr);
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#222";
   ctx.fill();
   ctx.closePath();
 }
@@ -182,8 +216,8 @@ function paddleR() {
 function brick() {
   var brickX, brickY;
   var gradient = ctx.createLinearGradient(0, 0, 170, 300);
-  gradient.addColorStop(0, "#4096ee");
-  gradient.addColorStop(1, "#7abcff");
+  gradient.addColorStop(0, "#B4B3D5");
+  gradient.addColorStop(1, "#B4B3D5");
 
   for (c = 0; c < bcCount; c++) {
     for (r = 0; r < brCount; r++) {
@@ -217,9 +251,19 @@ function collision() {
           b.status = 0;
           // Increase score //
           score++;
+          // Difficult check - if HARD, add speed! //
+          if (difficulty == "hard") {
+            if (dyb > 0) {
+              dyb += .1;
+              dxb += .1;
+            } else {
+              dyb += -.1;
+              dxb += -.1;
+            }
+          }
           // If no more blocks, you win! //
           if (score == brCount * bcCount) {
-            alert("YOU WIN, CONGRATULATIONS!");
+            alert("You win! Try again?");
             document.location.reload();
           }
         }
@@ -230,7 +274,7 @@ function collision() {
 
 function points() {
   ctx.font = "14px Helvetica";
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = "#FFF";
   ctx.fillText("Score: " + score, 8, 20);
 }
 
@@ -244,8 +288,17 @@ function gameScreen() {
 
 function gamePaused() {
   ctx.font = "20px Helvetica";
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#FFF";
   ctx.fillText("Paused", canvas.width / 2 - 35, canvas.height / 2);
+}
+
+function gameOver() {
+  lose = true;
+  music.pause();
+  defeat.play();
+  setTimeout(function() {
+    newGame();
+  }, 3500 );
 }
 
 function draw() {
@@ -258,7 +311,7 @@ function draw() {
   points();
 
   // CHECKS HORIZONTAL / VERTICAL PLACEMENT //
-  if (!pause) {
+  if (!pause && !lose) {
     if (xb + dxb > canvas.width - br || xb + dxb < br) {
       dxb = -dxb;
       if (sound) {
@@ -290,7 +343,7 @@ function draw() {
           dxb += dxb < 3 ? 1 : 0;
 
         } else {
-          console.log("Game Over");
+          gameOver();
         }
       }
     }
@@ -306,7 +359,7 @@ function draw() {
 
     xb += dxb;
     yb += dyb;
-  } else {
+  } else if (pause && !lose) {
     gamePaused();
     gameScreen();
   }
@@ -319,6 +372,18 @@ function init() {
   }, false);
 
   music.play();
+
+  var easy = location.href.indexOf("easy=true") > -1;
+
+  if (easy) {
+    difficulty = "easy";
+    $("#easy").show();
+    $("#hard").hide();
+  } else {
+    difficulty = "hard";
+    $("#easy").hide();
+    $("#hard").show();
+  }
 }
 
 ///////////////////

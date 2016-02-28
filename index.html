@@ -15,19 +15,48 @@
 </head>
 
 <body>
-  <div class="col-md-12 b-b-1 header">
-    <div class="col-md-3">
-      <h3><strong>BreakOut!</strong></h3>
+  <div id="wrapper">
+    <div class="content">
+      <div class="header">
+        <div class="col-md-12 b-b-1">
+          <div class="col-md-6">
+          <h3><i class="fa fa-gamepad" style="color:#F0AD4E"></i> BreakOut!</h3>
+        </div>
+        <div class="col-md-6 text-right">
+          <h5 class="high-score"></h5>
+        </div>
+        </div>
+      </div>
+    <div class="col-md-12 m-t-5 game-border">
+      <canvas id="main-canvas" width="480" height="320"></canvas>
+    </div>
+    <div class="col-md-12 m-t-15 text-right">
+      <div class="col-md-4 col-md-offset-4">
+        <a id="restart" class="btn btn-info">New Game</a>
+        <a id="easy" class="btn btn-success difficulty"><i class="fa fa-toggle-off"></i> Difficulty: Easy</a>
+        <a id="hard" class="btn btn-danger difficulty"><i class="fa fa-toggle-on"></i> Difficulty: Hard</a>
+        <a id="pause" class="btn btn-warning"><i class="fa fa-pause"></i> Pause</a>
+        <a id="sound" class="btn btn-success"><i class="fa fa-volume-up sound-icon"></i> Sound</a>
+      </div>
     </div>
   </div>
-  <div class="col-md-12 m-t-5">
-    <canvas id="main-canvas" width="480" height="320"></canvas>
-  </div>
-  <div class="col-md-12 m-t-15">
-    <div class="col-md-4 col-md-offset-4">
-      <a id="restart" class="btn btn-info">New Game</a>
-      <a id="pause" class="btn btn-warning"><i class="fa fa-pause"></i> Pause</a>
-      <a id="sound" class="btn btn-success"><i class="fa fa-bullhorn"></i> Sound</a>
+    <div class="col-md-12 m-t-15">
+      <div class="col-md-12">
+        <p><strong>Goal:</strong></p>
+        <p><ul>
+          <li>Destroy all the blocks to win! Simple.</li>
+        </ul>
+      </p>
+        <p><strong>Instructions:</strong></p>
+        <p class="text-left"><ul>
+          <li>To start a new game, press the <strong>N</strong> key.</li>
+          <li>Use the left <i class="fa fa-arrow-left"></i> and right <i class="fa fa-arrow-right"></i> arrows to move your paddle.</li>
+          <li>Press the Spacebar to pause <i class="fa fa-pause"></i> the game, or press the <strong>S</strong> key to toggle the sound.</li>
+          <li><i class="fa fa-exclamation"></i> Hint: each end of the paddle causes the ball to gain momentum. Use it to your advantage!</li>
+          <li><i class="fa fa-toggle-on"></i> Flip onto <span style="color:red"><strong>HARD MODE</strong></span> for an extra challenge. Good luck keeping up.</li>
+        </ul>
+      </p>
+      </div>
     </div>
   </div>
 </body>
