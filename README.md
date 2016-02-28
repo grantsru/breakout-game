@@ -1,4 +1,4 @@
-# Organization Report Builder
+# BreakOut!
 This is a brick-breaking paddle game built with Javascript, utilizing some Jquery, Bootstrap and Font Awesome.
 
 ## Goal:
