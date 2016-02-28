@@ -9,7 +9,7 @@ var canvas = document.getElementById("main-canvas"),
 var difficulty;
 
 // BALL VARS //
-var xb = Math.random() * (480), // x-axis
+var xb = Math.random() * (480 - 40) + 40, // x-axis
   yb = canvas.height - 30, // y-axis
   br = 8, // radius
   dxb = 1, // speed x-axis
