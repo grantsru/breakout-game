@@ -1,0 +1,39 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+canvas {
+  background: #eee;
+  display: block!important;
+  margin: 0 auto;
+}
+h3 {
+  margin-top: 10px !important;
+}
+#main-canvas {
+  border:1px solid #CCC;
+}
+#pause-overlay {
+  width: 480px;
+  height: 320px;
+  background-image: url("blanket.png");
+  position: absolute;
+  opacity: 0.2;
+  z-index: 2;
+  display: none;
+}
+.header {
+  background-color: #FFF;
+}
+.btn.nohover:hover {
+  cursor: default !important;
+}
+.b-b-1 {
+  border-bottom: 1px solid #CCC;
+}
+.m-t-5 {
+  margin-top: 5px;
+}
+.m-t-15 {
+  margin-top: 15px;
+}
