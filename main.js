@@ -1,6 +1,9 @@
 // VARIABLES //
 ///////////////
 
+KeyboardEvent.defaultPrevented = true;
+
+
 // CANVAS //
 var canvas = document.getElementById("main-canvas"),
   ctx = canvas.getContext("2d");
@@ -76,25 +79,36 @@ var bounce = new Audio("sound/bounce.wav"),
 // EVENT FUNCTIONS //
 /////////////////////
 
-$(document).keydown(function() {
+$(document).keydown(function(event) {
   keyDown(event);
 });
 
-$(document).keyup(function() {
+$(document).keyup(function(event) {
   keyUp(event);
 });
 
 function keyDown(e) {
-  if (e.keyCode == 39) {
-    right = true;
-  } else if (e.keyCode == 37) {
-    left = true;
-  } else if (e.keyCode == 32) {
-    togglePause();
-  } else if (e.keyCode == 83) {
-    toggleSound();
-  } else if (e.keyCode == 78) {
-    newGame();
+  console.log(e);
+  var key = e.keyCode;
+  switch (key) {
+    case 39:
+      right = true;
+      break;
+    case 37:
+      left = true;
+      break;
+    case 16:
+      togglePause();
+      break;
+    case 83:
+      toggleSound();
+      break;
+    case 78:
+      newGame();
+      break;
+    default:
+      return;
+      break;
   }
 }
 
