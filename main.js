@@ -263,6 +263,10 @@ function collision() {
           }
           // If no more blocks, you win! //
           if (score == brCount * bcCount) {
+            music.pause();
+            if (sound) {
+              victory.play();
+            }
             alert("You win! Try again?");
             document.location.reload();
           }
