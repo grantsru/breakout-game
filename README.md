@@ -1,5 +1,6 @@
 # BreakOut!
 This is a brick-breaking paddle game built with Javascript, utilizing some Jquery, Bootstrap and Font Awesome.
+Play this in your browser! http://grantsru.com/breakout/
 
 ## Goal:
 Destroy all the blocks to win! Simple.
