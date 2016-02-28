@@ -295,7 +295,9 @@ function gamePaused() {
 function gameOver() {
   lose = true;
   music.pause();
-  defeat.play();
+  if (sound) {
+    defeat.play();
+  }
   setTimeout(function() {
     newGame();
   }, 3500 );
