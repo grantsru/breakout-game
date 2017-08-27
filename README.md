@@ -2,10 +2,10 @@
 This is a brick-breaking paddle game built with Javascript, utilizing some Jquery, Bootstrap and Font Awesome.
 Play this in your browser! http://grantsru.com/breakout/
 
-## Goal:
+### Goal:
 Destroy all the blocks to win! Simple.
 
-##Instructions:
+### Instructions:
 1. To start a new game, press the N key.
 2. Use the left and right arrows to move your paddle.
 3. Press Left Shift to pause the game, or press the S key to toggle the sound.
